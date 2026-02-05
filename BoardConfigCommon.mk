@@ -82,6 +82,7 @@ BOARD_BOOTCONFIG := \
     androidboot.console=0 \
     androidboot.hardware=qcom \
     androidboot.hypervisor.protected_vm.supported=true \
+    androidboot.hypervisor.version=gunyah \
     androidboot.load_modules_parallel=true \
     androidboot.memcg=1 \
     androidboot.vendor.qspa=true \
