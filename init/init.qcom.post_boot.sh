@@ -857,7 +857,7 @@ function start_hbtp()
 }
 
 case "$target" in
-        "pineapple" | "cliffs")
+        "pineapple")
                 if [ -f /sys/devices/soc0/chip_family ]; then
                         chip_family_id=`cat /sys/devices/soc0/chip_family`
                 else
@@ -867,7 +867,7 @@ case "$target" in
                 echo "adsprpc : chip_family_id : $chip_faily_id" > /dev/kmsg
 
                 case "$chip_family_id" in
-                    "0x8a" | "0x94")
+                    "0x8a")
                     if [ -f /sys/devices/platform/soc/soc:qcom,msm_fastrpc/fastrpc_nsp_status ]; then
                         fastrpc_nsp_status=`cat /sys/devices/platform/soc/soc:qcom,msm_fastrpc/fastrpc_nsp_status`
                     else
