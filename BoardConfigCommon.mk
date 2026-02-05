@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_PATH := device/oneplus/sm8650-common
+COMMON_PATH := device/oneplus/sm8845-common
 
 # A/B
 AB_OTA_UPDATER := true
@@ -92,7 +92,7 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_IMAGE_NAME := Image
 
-TARGET_KERNEL_SOURCE := kernel/oneplus/sm8650
+TARGET_KERNEL_SOURCE := kernel/oneplus/sm8845
 
 TARGET_KERNEL_ADDITIONAL_FLAGS := CONFIG_OPLUS_DEVICE_DTBS=y
 TARGET_KERNEL_CONFIG := \
@@ -110,7 +110,7 @@ BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(TARGET_KERNEL_
 BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(TARGET_KERNEL_SOURCE)/modules.recovery.list.msm.pineapple $(TARGET_KERNEL_SOURCE)/modules.recovery.list.oplus.pineapple))
 BOOT_KERNEL_MODULES := $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD)
 
-TARGET_KERNEL_EXT_MODULE_ROOT := kernel/oneplus/sm8650-modules
+TARGET_KERNEL_EXT_MODULE_ROOT := kernel/oneplus/sm8845-modules
 TARGET_KERNEL_EXT_MODULES := \
     qcom/opensource/mmrm-driver \
     qcom/opensource/mm-drivers/hw_fence \
@@ -264,4 +264,4 @@ WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Include the proprietary files BoardConfig.
-include vendor/oneplus/sm8650-common/BoardConfigVendor.mk
+include vendor/oneplus/sm8845-common/BoardConfigVendor.mk
