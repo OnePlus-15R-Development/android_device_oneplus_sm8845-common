@@ -81,6 +81,7 @@ BOARD_BOOTCONFIG := \
     androidboot.hypervisor.version=gunyah \
     androidboot.load_modules_parallel=true \
     androidboot.memcg=1 \
+    androidboot.selinux=permissive \
     androidboot.serialconsole=0 \
     androidboot.vendor.qspa=true \
     androidboot.usbcontroller=a600000.dwc3
