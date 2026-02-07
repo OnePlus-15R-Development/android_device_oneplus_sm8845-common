@@ -76,12 +76,12 @@ BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
 
 # Kernel
 BOARD_BOOTCONFIG := \
-    androidboot.console=0 \
     androidboot.hardware=qcom \
     androidboot.hypervisor.protected_vm.supported=true \
     androidboot.hypervisor.version=gunyah \
     androidboot.load_modules_parallel=true \
     androidboot.memcg=1 \
+    androidboot.serialconsole=0 \
     androidboot.vendor.qspa=true \
     androidboot.usbcontroller=a600000.dwc3
 
