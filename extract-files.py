@@ -18,6 +18,7 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
+    'vendor/oneplus/macan', #"FIXME: libqti-perfd" depends on undefined module "libdisplayconfig.qti".
     'device/oneplus/sm8845-common',
     'hardware/qcom-caf/sm8845',
     'hardware/qcom-caf/wlan',
@@ -38,16 +39,12 @@ lib_fixups: lib_fixups_user_type = {
     (
         'com.qualcomm.qti.dpm.api@1.0',
         'libosensenativeproxy_client',
-        'vendor.qti.ImsRtpService-V1-ndk',
-        'vendor.qti.diaghal@1.0',
+        'vendor.oplus.hardware.subsys-V5-ndk',
+        'vendor.qti.diaghal-V1-ndk',
+        'vendor.qti.ImsRtpService-V2-ndk',
         'vendor.qti.hardware.dpmaidlservice-V1-ndk',
-        'vendor.qti.hardware.dpmservice@1.0',
-        'vendor.qti.hardware.qccsyshal@1.0',
-        'vendor.qti.hardware.qccsyshal@1.1',
-        'vendor.qti.hardware.qccsyshal@1.2',
-        'vendor.qti.hardware.wifidisplaysession@1.0',
-        'vendor.qti.imsrtpservice@3.0',
-        'vendor.qti.imsrtpservice@3.1',
+        'vendor.qti.hardware.wifidisplaysession_aidl-V1-ndk',
+        'vendor.qti.qccsyshal_aidl-V1-ndk',
         'vendor.qti.qccvndhal_aidl-V1-ndk',
     ): lib_fixup_vendor_suffix,
 }
@@ -55,46 +52,30 @@ lib_fixups: lib_fixups_user_type = {
 blob_fixups: blob_fixups_user_type = {
     'odm/bin/hw/vendor.oplus.hardware.biometrics.fingerprint@2.1-service_uff': blob_fixup()
         .add_needed('libshims_aidl_fingerprint_v3.oplus.so'),
+    'odm/etc/init/init.network.rc': blob_fixup()
+        .regex_replace(r'/\* (Huo\.Chen@SYSTEM\.RF, 2024/09/06, Add for ICC) \*/', r'# \1'),
     'product/etc/sysconfig/com.android.hotwordenrollment.common.util.xml': blob_fixup()
         .regex_replace('/my_product', '/product'),
-    'vendor/bin/init.kernel.post_boot-memory.sh': blob_fixup()
-        .regex_replace('# echo always', 'echo always'),
-    'vendor/bin/system_dlkm_modprobe.sh': blob_fixup()
-        .regex_replace(r'.*\bzram or zsmalloc\b.*\n', '')
-        .regex_replace(r'-e "zram" -e "zsmalloc"', ''),
-    'vendor/bin/vendor_modprobe.sh': blob_fixup()
-        .regex_replace(r'\n.*OPLUS_BUG_STABILITY[\s\S]*?OPLUS_BUG_STABILITY.*\n', ''),
     (
-        'vendor/bin/qcc-vendor',
-        'vendor/bin/qms',
-        'vendor/bin/xtra-daemon',
-        'vendor/lib64/libcne.so',
-        'vendor/lib64/libqcc_sdk.so',
-        'vendor/lib64/libqms_client.so'
+        'vendor/etc/media_codecs_canoe_v2.xml',
+        'vendor/etc/media_codecs_canoe_sku3.xml',
     ): blob_fixup()
-        .add_needed('libbinder_shim.so'),
-    ('vendor/etc/media_codecs_cliffs_v0.xml', 'vendor/etc/media_codecs_cliffs_v1.xml', 'vendor/etc/media_codecs_pineapple.xml'): blob_fixup()
         .regex_replace('.*media_codecs_(google_audio|google_c2|google_telephony|google_video|vendor_audio).*\n', ''),
-    'vendor/etc/seccomp_policy/gnss@2.0-qsap-location.policy': blob_fixup()
-        .add_line_if_missing('sched_get_priority_min: 1')
-        .add_line_if_missing('sched_get_priority_max: 1'),
-    'vendor/etc/init/vendor.dpmd.rc': blob_fixup()
-        .regex_replace(
-            r'(service\s+vendor\.dpmd\s+/vendor/bin/vendor\.dpmd\s*\n)',
-            r'\1    user root\n'
-        ),
-    'vendor/etc/init/nicmd.rc': blob_fixup()
-        .regex_replace(
-            r'(service\s+vendor\.nicmd\s+/system/vendor/bin/nicmd\s*\n\s*class\s+main)',
-            r'\1\n    user root\n    group root'
-        ),
-    'vendor/etc/pwr/PowerFeatureConfig.xml': blob_fixup()
-        .regex_replace(r'(<Name>GamePowerOptFeature</Name>\s*<Enable>)0(<\/Enable>)', r'\g<1>1\g<2>'),
-    'vendor/lib64/vendor.libdpmframework.so': blob_fixup()
-        .add_needed('libbinder_shim.so')
-        .add_needed('libhidlbase_shim.so'),
+    (
+        'vendor/lib64/hw/android.hardware.bluetooth.audio_sw.so',
+        'vendor/lib64/hw/libaudiocorehal.qti.so',
+        'vendor/lib64/hw/libaudioeffecthal.qti.so',
+        'vendor/lib64/hw/libsoundtriggerhal.qti.so',
+        'vendor/lib64/libaudioserviceexampleimpl.so',
+        'vendor/lib64/libqtigefar.so',
+        'vendor/lib64/soundfx/libqcompostprocbundle.so',
+        'vendor/lib64/soundfx/libqcomvisualizer.so',
+        'vendor/lib64/soundfx/libqcomvoiceprocessing.so',
+        'vendor/lib64/soundfx/libvolumelistener.so',
+    ): blob_fixup()
+        .replace_needed('android.media.audio.common.types-V5-ndk.so', 'android.media.audio.common.types-V4-ndk.so'),
     'vendor/lib64/libqcodec2_core.so': blob_fixup()
-        .add_needed('libcodec2_shim.so'),
+        .replace_needed('android.hardware.graphics.common-V5-ndk.so', 'android.hardware.graphics.common-V6-ndk.so'),
 }  # fmt: skip
 
 module = ExtractUtilsModule(
